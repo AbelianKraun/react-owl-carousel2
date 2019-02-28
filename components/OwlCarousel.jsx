@@ -128,11 +128,9 @@ const owlCarouselEvents = {
 };
 
 class OwlCarousel extends React.Component {
-
 	constructor(props, context) {
 		super(props, context);
 
-		this.initialized = false;
 		this.next = () => this.$car.next();
 		this.prev = () => this.$car.prev();
 		this.goTo = (x) => this.$car.to(x);
@@ -148,8 +146,7 @@ class OwlCarousel extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (React.Children.count(this.props.children) != React.Children.count(nextProps.children))
-			this.destroy();
+		this.destroy();
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -163,22 +160,14 @@ class OwlCarousel extends React.Component {
 	}
 
 	init(options) {
-		if (this.initialized)
-			return;
-
 		let next = options.onTranslate;
 		options.onTranslate = this.onTranslate(next);
 		this.$node.owlCarousel(options);
 		this.$car = this.$node.data('owl.carousel');
-		this.initialized = true;
 	}
 
 	destroy() {
-		if (!this.initialized)
-			return;
-
 		this.$car.destroy();
-		this.initialized = false;
 	}
 
 	getOptions() {
